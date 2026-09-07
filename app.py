@@ -387,31 +387,55 @@ if uploaded_files:
 
 
     index = faiss.IndexFlatL2(
-    dimension
-)
-
-index.add(
-    embeddings
-)
+        dimension
+    )
 
 
-# =====================================================
-# INITIALIZE GEMINI
-# =====================================================
+    index.add(
+        embeddings
+    )
 
-client = genai.Client(
-    api_key=st.secrets["GEMINI_API_KEY"]
-)
 
-class GeminiLLM:
-    def invoke(self, prompt):
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
-        return response.text
+    # =====================================================
+    # INITIALIZE OLLAMA
+    # =====================================================
 
-llm = GeminiLLM()
+    llm = OllamaLLM(
+        model="llama3.2"
+    )
+
+
+    # =====================================================
+    # SELECTED DOCUMENT DATA
+    # =====================================================
+
+    selected_chunks = []
+
+    selected_sources = []
+
+
+    for chunk, source in zip(
+        chunks,
+        chunk_sources
+    ):
+
+        if (
+            selected_document
+            == "All Documents"
+
+            or
+
+            source["filename"]
+            == selected_document
+        ):
+
+            selected_chunks.append(
+                chunk
+            )
+
+            selected_sources.append(
+                source
+            )
 
 
     # =========================================================
@@ -545,7 +569,7 @@ PDF CONTENT:
 
 
                     st.error(
-                        "❌ Could not connect to Ollama."
+                        "❌ Could not connect to Gemini."
                     )
 
 
@@ -717,7 +741,7 @@ PDF CONTENT:
 
 
                     st.error(
-                        "❌ Could not connect to Ollama."
+                        "❌ Could not connect to Gemini."
                     )
 
 
@@ -1016,7 +1040,7 @@ PDF CONTENT:
 
 
                     st.info(
-                        "Make sure Ollama is running."
+                        "Make sure your Gemini API key is configured in Streamlit Secrets."
                     )
 
 
