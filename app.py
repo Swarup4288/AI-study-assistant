@@ -221,12 +221,9 @@ if uploaded_files:
                     )
 
 
-        except Exception:
-
-            st.error(
-                f"❌ Could not read "
-                f"{uploaded_file.name}"
-            )
+        except Exception as e:
+    st.error("❌ Could not connect to Gemini.")
+    st.error(f"Gemini Error: {str(e)}")
 
 
     # =====================================================
