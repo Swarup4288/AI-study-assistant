@@ -415,24 +415,23 @@ class GeminiLLM:
 llm = GeminiLLM()
 
 
-    # =====================================================
-    # SELECTED DOCUMENT DATA
-    # =====================================================
+# =====================================================
+# SELECTED DOCUMENT DATA
+# =====================================================
 
-    selected_chunks = []
+selected_chunks = []
 
-    selected_sources = []
+selected_sources = []
 
 
-    for chunk, source in zip(
-        chunks,
-        chunk_sources
-    ):
+for chunk, source in zip(
+    chunks,
+    chunk_sources
+):
 
-        if (
-            selected_document
-            == "All Documents"
-
+    if (
+        selected_document
+        == "All Documents"
             or
 
             source["filename"]
