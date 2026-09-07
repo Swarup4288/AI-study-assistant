@@ -387,16 +387,15 @@ if uploaded_files:
 
 
     index = faiss.IndexFlatL2(
-        dimension
-    )
+    dimension
+)
+
+index.add(
+    embeddings
+)
 
 
-    index.add(
-        embeddings
-    )
-
-
-  # =====================================================
+# =====================================================
 # INITIALIZE GEMINI
 # =====================================================
 
@@ -413,38 +412,6 @@ class GeminiLLM:
         return response.text
 
 llm = GeminiLLM()
-
-
-# =====================================================
-# SELECTED DOCUMENT DATA
-# =====================================================
-
-selected_chunks = []
-
-selected_sources = []
-
-
-for chunk, source in zip(
-    chunks,
-    chunk_sources
-):
-
-    if (
-        selected_document
-        == "All Documents"
-            or
-
-            source["filename"]
-            == selected_document
-        ):
-
-            selected_chunks.append(
-                chunk
-            )
-
-            selected_sources.append(
-                source
-            )
 
 
     # =========================================================
