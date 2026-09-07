@@ -2,7 +2,7 @@ import streamlit as st
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
-from langchain_ollama import OllamaLLM
+from google import genai
 
 import faiss
 import numpy as np
@@ -396,13 +396,23 @@ if uploaded_files:
     )
 
 
-    # =====================================================
-    # INITIALIZE OLLAMA
-    # =====================================================
+  # =====================================================
+# INITIALIZE GEMINI
+# =====================================================
 
-    llm = OllamaLLM(
-        model="llama3.2"
-    )
+client = genai.Client(
+    api_key=st.secrets["GEMINI_API_KEY"]
+)
+
+class GeminiLLM:
+    def invoke(self, prompt):
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+        return response.text
+
+llm = GeminiLLM()
 
 
     # =====================================================
