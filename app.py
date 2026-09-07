@@ -397,12 +397,22 @@ if uploaded_files:
 
 
     # =====================================================
-    # INITIALIZE OLLAMA
+    # INITIALIZE GEMINI
     # =====================================================
 
-    llm = OllamaLLM(
-        model="llama3.2"
+    client = genai.Client(
+        api_key=st.secrets["GEMINI_API_KEY"]
     )
+
+    class GeminiLLM:
+        def invoke(self, prompt):
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt
+            )
+            return response.text
+
+    llm = GeminiLLM()
 
 
     # =====================================================
@@ -574,8 +584,7 @@ PDF CONTENT:
 
 
                     st.info(
-                        "Make sure Ollama is running "
-                        "and llama3.2 is installed."
+                        "Check that GEMINI_API_KEY is correctly saved in Streamlit Secrets."
                     )
 
 
@@ -746,8 +755,7 @@ PDF CONTENT:
 
 
                     st.info(
-                        "Make sure Ollama is running "
-                        "and llama3.2 is installed."
+                        "Check that GEMINI_API_KEY is correctly saved in Streamlit Secrets."
                     )
 
 
@@ -1545,8 +1553,7 @@ ANSWER:
                     except Exception:
 
                         answer = (
-                            "Could not connect to Ollama. "
-                            "Please make sure Ollama is running."
+                            "Could not connect to Gemini. Please check GEMINI_API_KEY."
                         )
 
 
